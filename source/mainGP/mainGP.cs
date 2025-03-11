@@ -1,24 +1,25 @@
-class MainGP {
+class MainGP
+{
+    private Individual[] population;
+    private Individual[] newPopulation;
+    private Individual currentBest;
+    private Random random = new Random();
+    private Parameters parameters = new Parameters();
 
-    Individual[] population;
-    Individual[] newPopulation;
-    Individual currentBest;
-    Random random = new Random();
+    public MainGP(string dataFile, Parameters parameters)
+    {
+        this.parameters = parameters;
 
-    Parameters parameters = new Parameters();
-
-    public MainGP(string dataFile) {
-        
         DataReader dataReader = new DataReader(dataFile);
 
         FitnessHelper.DistanceMatrix = dataReader.DistanceMatrix;
-        population = RandomGeneration.createRandomGeneration(parameters.POPULATION_SIZE, dataReader.NumberOfCities);
+        population = RandomGeneration.CreateRandomGeneration(parameters.POPULATION_SIZE, dataReader.NumberOfCities);
         currentBest = RandomGeneration.best;
 
         newPopulation = new Individual[parameters.POPULATION_SIZE];
     }
 
-    public void evolve() {
+    public (List<int> BestRoute, double BestDistance) Evolve() {
 
         for(int genNumber = 0; genNumber < parameters.MAX_GENERATIONS; genNumber ++) {
             for(int indivNumber = 0; indivNumber < parameters.POPULATION_SIZE - 1; indivNumber ++) {
@@ -30,22 +31,22 @@ class MainGP {
 
                     if(parameters.TOURNAMENT_METHOD == Parameters.TournamentMethod.BEST_RANDOM) {
 
-                        firstParent = Choice.bestRandomTournament(parameters.TOURNAMENT_SIZE, population);
-                        secondParent = Choice.bestRandomTournament(parameters.TOURNAMENT_SIZE, population);
+                        firstParent = Choice.BestRandomTournament(parameters.TOURNAMENT_SIZE, population);
+                        secondParent = Choice.BestRandomTournament(parameters.TOURNAMENT_SIZE, population);
                     }
                     if(parameters.TOURNAMENT_METHOD == Parameters.TournamentMethod.ROULETEE) {
 
-                        firstParent = Choice.rouletteTournament(parameters.TOURNAMENT_SIZE, population);
-                        secondParent = Choice.rouletteTournament(parameters.TOURNAMENT_SIZE, population);
+                        firstParent = Choice.RouletteTournament(parameters.TOURNAMENT_SIZE, population);
+                        secondParent = Choice.RouletteTournament(parameters.TOURNAMENT_SIZE, population);
                     }
 
                     Individual[]? children = null;
 
                     if(parameters.CROSSOVER_METHOD == Parameters.CrossoverMethod.ONE_POINT)
-                        children = ChromosomesOperations.new_onePointCrossover(firstParent, secondParent);
+                        children = ChromosomesOperations.New_onePointCrossover(firstParent, secondParent);
 
                     if(parameters.CROSSOVER_METHOD == Parameters.CrossoverMethod.TWO_POINT)
-                        children = ChromosomesOperations.new_twoPointCrossover(firstParent, secondParent);
+                        children = ChromosomesOperations.New_twoPointCrossover(firstParent, secondParent);
 
                     if(children[0].Fitness < currentBest.Fitness) 
                         currentBest = children[0];
@@ -62,12 +63,12 @@ class MainGP {
                     Individual? individual = null;
 
                     if (parameters.TOURNAMENT_METHOD == Parameters.TournamentMethod.BEST_RANDOM)
-                        individual = Choice.bestRandomTournament(parameters.TOURNAMENT_SIZE, population);
+                        individual = Choice.BestRandomTournament(parameters.TOURNAMENT_SIZE, population);
 
                     if (parameters.TOURNAMENT_METHOD == Parameters.TournamentMethod.ROULETEE)
-                        individual = Choice.rouletteTournament(parameters.TOURNAMENT_SIZE, population);
+                        individual = Choice.RouletteTournament(parameters.TOURNAMENT_SIZE, population);
 
-                    Individual mutatedIndividual = ChromosomesOperations.mutation(individual, parameters.CHANCE_OF_NODE_MUTATING);
+                    Individual mutatedIndividual = ChromosomesOperations.Mutation(individual, parameters.CHANCE_OF_NODE_MUTATING);
 
                     if(mutatedIndividual.Fitness < currentBest.Fitness)
                         currentBest = mutatedIndividual;
@@ -77,20 +78,18 @@ class MainGP {
             }
 
             newPopulation[parameters.POPULATION_SIZE - 1] = currentBest;
+            // Console.WriteLine("Generation: " + genNumber);
+            // Console.WriteLine("The best fitness: " + currentBest.Fitness);
+            // Console.WriteLine("The best order of cities: ");
 
-            Console.WriteLine("Generation: " + genNumber);
-            Console.WriteLine("The best fitness: " + currentBest.Fitness);
-            Console.WriteLine("The best order of cities: ");
-            currentBest.display();
-
-            Console.WriteLine();
-
-            updatePopulation();
+            // Console.WriteLine();
+            UpdatePopulation();
         }
+        return (currentBest.GetRoute(), currentBest.Fitness);
     }
 
-    private void updatePopulation() {
-
+    private void UpdatePopulation()
+    {
         // code to display all children 
 
         // for(int indivNumber = 0; indivNumber < parameters.POPULATION_SIZE; indivNumber ++)
@@ -103,7 +102,7 @@ class MainGP {
 
         // Console.WriteLine();
 
-        for(int indivNumber = 0; indivNumber < parameters.POPULATION_SIZE; indivNumber ++)
+        for (int indivNumber = 0; indivNumber < parameters.POPULATION_SIZE; indivNumber++)
             population[indivNumber] = newPopulation[indivNumber];
     }
 }

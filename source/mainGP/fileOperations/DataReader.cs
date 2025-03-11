@@ -25,13 +25,13 @@ class DataReader {
             if(header == null)
                 throw new Exception("There is no header in your file");  
 
-            setDepth(header);
+            SetDepth(header);
 
             string? line; 
             while ((line = Textfile.ReadLine()) != null) { 
                 
                 string[] values = line.Split(";");
-                setDistancesForOneCity(values);
+                SetDistancesForOneCity(values);
             } 
   
             Textfile.Close(); 
@@ -41,7 +41,7 @@ class DataReader {
         }
     }
 
-    private void setDepth(string header) {
+    private void SetDepth(string header) {
 
         string[] arrayOfCities = header.Split(";");
 
@@ -50,7 +50,7 @@ class DataReader {
         distanceMatrix = new double[numberOfCities, numberOfCities];
     }
 
-    private void setDistancesForOneCity(string[] values) {
+    private void SetDistancesForOneCity(string[] values) {
         
         int city = Int32.Parse(values[0]);
 
@@ -65,7 +65,7 @@ class DataReader {
         }
     }
 
-    public void displayMatrix() {
+    public void DisplayMatrix() {
 
         int depth = distanceMatrix.GetLength(0);
 

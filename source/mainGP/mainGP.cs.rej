@@ -1,0 +1,14 @@
+diff a/source/mainGP/mainGP.cs b/source/mainGP/mainGP.cs	(rejected hunks)
+@@ -52,12 +52,6 @@
+             }
+ 
+             newPopulation[parameters.POPULATION_SIZE - 1] = currentBest;
+-            Console.WriteLine("Generation: " + genNumber);
+-            Console.WriteLine("The best fitness: " + currentBest.Fitness);
+-            Console.WriteLine("The best order of cities: ");
+-            currentBest.display();
+-
+-            Console.WriteLine();
+             UpdatePopulation();
+         }
+ 

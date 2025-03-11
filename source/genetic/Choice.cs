@@ -2,13 +2,13 @@ class Choice {
 
     private static Random random = new Random();
 
-    public static Individual bestRandomTournament(int tournamentSize, Individual[] population) {
+    public static Individual BestRandomTournament(int tournamentSize, Individual[] population) {
 
-        Individual bestIndividual = getRandomIndividual(population);
+        Individual bestIndividual = GetRandomIndividual(population);
 
         for(int i = 1; i < tournamentSize; i++) {
 
-            Individual individual = getRandomIndividual(population);
+            Individual individual = GetRandomIndividual(population);
 
             if(individual.Fitness < bestIndividual.Fitness)
                 bestIndividual = individual;
@@ -17,17 +17,17 @@ class Choice {
         return bestIndividual;
     }
 
-    public static Individual rouletteTournament(int tournamentSize, Individual[] population) {
+    public static Individual RouletteTournament(int tournamentSize, Individual[] population) {
 
         Individual[] individuals = new Individual[tournamentSize];
         double[] winPointsArray = new double[tournamentSize];
 
-        Individual worstIndividual = getRandomIndividual(population);
+        Individual worstIndividual = GetRandomIndividual(population);
         individuals[0] = worstIndividual;
 
         for(int i = 1; i < tournamentSize; i++) {
 
-            Individual individual = getRandomIndividual(population);
+            Individual individual = GetRandomIndividual(population);
             individuals[i] = individual;
 
             if(individual.Fitness > worstIndividual.Fitness)
@@ -60,7 +60,7 @@ class Choice {
         return selectedIndividual;
     }
 
-    private static Individual getRandomIndividual(Individual[] population) {
+    private static Individual GetRandomIndividual(Individual[] population) {
 
             int populationSize = population.Length;
 

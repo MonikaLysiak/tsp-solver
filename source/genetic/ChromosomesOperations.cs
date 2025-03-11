@@ -1,7 +1,7 @@
 class ChromosomesOperations {
 
     public static Random random = new Random();
-    public static Individual[] onePointCrossover(Individual firstParent, Individual secondParent) {
+    public static Individual[] OnePointCrossover(Individual firstParent, Individual secondParent) {
 
         int totalDepth = firstParent.Cities.Length;
 
@@ -44,7 +44,7 @@ class ChromosomesOperations {
         return children;
     }
 
-    public static Individual[] new_onePointCrossover(Individual firstParent, Individual secondParent)
+    public static Individual[] New_onePointCrossover(Individual firstParent, Individual secondParent)
     {
 
         int totalDepth = firstParent.Cities.Length;
@@ -104,7 +104,7 @@ class ChromosomesOperations {
         return children;
     }
 
-    public static Individual[] twoPointCrossover(Individual firstParent, Individual secondParent) {
+    public static Individual[] TwoPointCrossover(Individual firstParent, Individual secondParent) {
 
         int totalDepth = firstParent.Cities.Length;
 
@@ -159,7 +159,7 @@ class ChromosomesOperations {
         return children;
     }
 
-    public static Individual[] new_twoPointCrossover(Individual firstParent, Individual secondParent)
+    public static Individual[] New_twoPointCrossover(Individual firstParent, Individual secondParent)
     {
 
         int totalDepth = firstParent.Cities.Length;
@@ -228,7 +228,7 @@ class ChromosomesOperations {
         return children;
     }
 
-    public static Individual mutation(Individual parent, double chanceOfNodeMutating) {
+    public static Individual Mutation(Individual parent, double chanceOfNodeMutating) {
 
         int totalDepth = parent.Cities.Length;
 

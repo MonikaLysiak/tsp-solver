@@ -8,7 +8,7 @@ class FitnessHelper {
     }
 
 
-    public static void setFitnessOfIndividual(Individual individual) {
+    public static void SetFitnessOfIndividual(Individual individual) {
 
         int totalDepth = individual.Cities.Length;
 

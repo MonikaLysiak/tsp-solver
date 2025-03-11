@@ -2,7 +2,7 @@ class RandomGeneration {
 
     public static Individual? best = null;
 
-    public static Individual[] createRandomGeneration(int populationSize, int depth) {
+    public static Individual[] CreateRandomGeneration(int populationSize, int depth) {
 
         Individual[] population = new Individual[populationSize];
 

@@ -1,5 +1,5 @@
-class Individual {
-
+public class Individual
+{
     private int[] cities;
     private double fitness;
 
@@ -15,50 +15,53 @@ class Individual {
         get => fitness;
         set => fitness = value;
     }
-
-    public Individual(int depth) {
-
-        this.cities = getRandomCities(depth); 
-        FitnessHelper.setFitnessOfIndividual(this);
+    
+    // Constructor for random initialization
+    public Individual(int numCities)
+    {
+        this.cities = GenerateRandomRoute(numCities);
+        FitnessHelper.SetFitnessOfIndividual(this);
     }
 
-    public Individual(int[] cities) {
-
-        this.cities = cities;
-        FitnessHelper.setFitnessOfIndividual(this);
+    // Constructor for predefined city order
+    public Individual(int[] cities)
+    {
+        this.cities = (int[])cities.Clone();
+        FitnessHelper.SetFitnessOfIndividual(this);
     }
 
-    private int[] getRandomCities(int depth) {
+    // Copy constructor
+    public Individual(Individual other)
+    {
+        this.cities = (int[])other.cities.Clone();
+        this.fitness = other.fitness;
+    }
 
-        int[] newCities = new int[depth];
-        List<int> allPossibleCities = new();
+    // Generate a random permutation of cities
+    private static int[] GenerateRandomRoute(int numCities)
+    {
+        List<int> availableCities = Enumerable.Range(0, numCities).ToList();
+        int[] route = new int[numCities];
 
-        for(int i = 0; i < depth; i++)
-            allPossibleCities.Add(i);
-
-        for(int i = 0; i < depth; i++) {
-
-            int randomIndex = random.Next(depth - i);
-            newCities[i] = allPossibleCities[randomIndex];
-
-            allPossibleCities.RemoveAt(randomIndex);
+        for (int i = 0; i < numCities; i++)
+        {
+            int index = random.Next(availableCities.Count);
+            route[i] = availableCities[index];
+            availableCities.RemoveAt(index);
         }
 
-        return newCities;
+        return route;
     }
 
-    public void display() {
-        
-        for(int i = 0; i < cities.Length; i++) {
-            
-            Console.Write(cities[i] + 1);
+    // Return the route as a list
+    public List<int> GetRoute()
+    {
+        return cities.ToList();
+    }
 
-            if(i < cities.Length - 1) {
-                Console.Write(", ");
-            }
-            
-        }
-
-        Console.WriteLine();
+    // Override ToString instead of using display()
+    public override string ToString()
+    {
+        return string.Join(" -> ", cities.Select(c => c + 1)) + $" | Fitness: {fitness}";
     }
 }
