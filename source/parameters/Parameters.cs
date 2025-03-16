@@ -1,4 +1,4 @@
-class Parameters {
+public class Parameters {
     // main parameters
     public int POPULATION_SIZE { get; set; } = 80_000;
     public int TOURNAMENT_SIZE { get; set; } = 70;

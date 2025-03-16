@@ -1,4 +1,4 @@
-class MainGP
+public class MainGP
 {
     private Individual[] population;
     private Individual[] newPopulation;
