@@ -1,6 +1,6 @@
 public class SolverGP
 {
-    public (List<int> BestRoute, double BestDistance) SolveTsp(string filePath, int populationSize, int generations, double crossoverProbability, double mutationChance, int tournamentSize, string tournamentMethod, string crossoverMethod)
+    public static async Task<(List<int> BestRoute, double BestDistance)> SolveTsp(string filePath, int populationSize, int generations, double crossoverProbability, double mutationChance, int tournamentSize, string tournamentMethod, string crossoverMethod, int? maxDurationSeconds)
     {
         var parameters = new Parameters(
             populationSize,
@@ -13,7 +13,14 @@ public class SolverGP
         );
 
         var solver = new MainGP(filePath, parameters);
-        return solver.Evolve();
+        
+        if (maxDurationSeconds.HasValue) return await Task.Run(() => solver.Evolve(maxDurationSeconds.Value));
+        return await Task.Run(() => solver.Evolve());
+    }
+
+    public async Task StopEvolutionAsync()
+    {
+        await Task.Run(() => MainGP.StopEvolution());
     }
 }
 

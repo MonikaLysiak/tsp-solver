@@ -96,10 +96,10 @@ class ChromosomesOperations {
 
         // -----
 
-        Individual offspring1 = new Individual(newCities1);
-        Individual offspring2 = new Individual(newCities2);
+        Individual offspring1 = new(newCities1);
+        Individual offspring2 = new(newCities2);
 
-        Individual[] children = { offspring1, offspring2 };
+        Individual[] children = [offspring1, offspring2];
 
         return children;
     }
