@@ -2,17 +2,18 @@ using System.Diagnostics;
 
 public class MainGP
 {
+    private const int HARDCODED_TIMEOUT_SECONDS = 600;
+    // to be fixed in the future - not supposed to be static
+    private static CancellationTokenSource cts = new CancellationTokenSource();
     private Individual[] population;
     private Individual[] newPopulation;
     private Individual currentBest;
     private Random random = new Random();
     private Parameters parameters = new Parameters();
 
-    // to be fixed in the future - not supposed to be static
-    private static CancellationTokenSource cts = new CancellationTokenSource();
+    public delegate void BestSolutionUpdatedHandler(List<int> bestRoute, double bestDistance);
+    public event BestSolutionUpdatedHandler? OnBestSolutionUpdated;
     
-    private const int HARDCODED_TIMEOUT_SECONDS = 600;
-
     public MainGP(string dataFile, Parameters parameters)
     {
         this.parameters = parameters;
@@ -118,7 +119,10 @@ public class MainGP
         foreach (var child in children)
         {
             if (child.Fitness < currentBest.Fitness)
+            {
                 currentBest = child;
+                OnBestSolutionUpdated?.Invoke(currentBest.GetRoute(), currentBest.Fitness);
+            }
         }
     }
 
