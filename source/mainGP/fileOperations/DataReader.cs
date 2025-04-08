@@ -14,27 +14,24 @@ class DataReader {
         get => distanceMatrix;
     }
 
-    public DataReader(string dataFile) {
+    public DataReader(Stream dataFile) {
 
-        if (File.Exists(dataFile)) { 
+        if (dataFile != null && dataFile.Length > 0) {
+
+            string header;
+            string? line;
+
+            using (var reader = new StreamReader(dataFile))
+            {
+                header = reader.ReadLine() ?? throw new Exception("There is no header in your file");
             
-            StreamReader Textfile = new StreamReader(dataFile); 
+                SetDepth(header);
 
-            string? header = Textfile.ReadLine(); 
-
-            if(header == null)
-                throw new Exception("There is no header in your file");  
-
-            SetDepth(header);
-
-            string? line; 
-            while ((line = Textfile.ReadLine()) != null) { 
-                
-                string[] values = line.Split(";");
-                SetDistancesForOneCity(values);
-            } 
-  
-            Textfile.Close(); 
+                while ((line = reader.ReadLine()) != null) {
+                    string[] values = line.Split(";");
+                    SetDistancesForOneCity(values);
+                } 
+            }
         } 
         else {
             throw new Exception("Provide appriopriate file name");

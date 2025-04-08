@@ -14,7 +14,7 @@ public class MainGP
     public delegate void BestSolutionUpdatedHandler(List<int> bestRoute, double bestDistance);
     public event BestSolutionUpdatedHandler? OnBestSolutionUpdated;
     
-    public MainGP(string dataFile, Parameters parameters)
+    public MainGP(Stream dataFile, Parameters parameters)
     {
         this.parameters = parameters;
         cts = new CancellationTokenSource();
